@@ -1,0 +1,12 @@
+DISCOVERY.md
+browser.json
+spotify_tracks.json
+import_progress.json
+spotify_playlists_report.txt
+.spotify_cache
+*.pyc
+__pycache__/
+.env
+venv/
+env/
+spotifyenv/
